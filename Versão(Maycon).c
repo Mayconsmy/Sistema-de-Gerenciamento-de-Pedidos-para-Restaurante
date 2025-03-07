@@ -119,7 +119,7 @@ void removerItemCardapio() {
         printf("Item inválido!\n");
         return;
     }
-
+    
 
     for (int i = id - 1; i < totalItens - 1; i++) {
         cardapio[i] = cardapio[i + 1];
