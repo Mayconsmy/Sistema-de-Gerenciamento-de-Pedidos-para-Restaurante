@@ -309,3 +309,5 @@ int main() {
     free(pedidos);
     return 0;
 }
+
+//deu certo!!!
