@@ -310,4 +310,3 @@ int main() {
     return 0;
 }
 
-//olhe se deu certo agora
