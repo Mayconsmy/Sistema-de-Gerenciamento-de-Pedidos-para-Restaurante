@@ -1,6 +1,6 @@
 # Sistema Restaurante "Comidas do Sertão"
 
-Projeto desenvolvido para a disciplina **Estruturas de Dados 1** do professor **George Felipe Fernandes Vieira**.
+Projeto desenvolvido para a primeira unidade da disciplina **Estruturas de Dados 1** do professor **George Felipe Fernandes Vieira**.
 
 ## Descrição do Projeto
 
@@ -28,3 +28,10 @@ O **Sistema Restaurante "Dividão"** simula o funcionamento de um restaurante, p
 - Alocação Dinâmica de Memória
 - Vetores Dinâmicos
 - Estruturas (Structs) e Enumerações
+
+## Discentes Envolvidos
+
+ - ANTONIO ANDSON DE OLIVEIRA ROCHA 
+ - LEVI FILGUEIRA CHAGAS
+ - MAYCON SOARES MAIA
+ - SOPHIA HELLEN PIRES DA SILVEIRA
