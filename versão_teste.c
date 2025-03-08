@@ -3,7 +3,7 @@
 #include <string.h>
 #include <locale.h>
 
-// Definição das enums
+// Definição das enum's
 typedef enum {
     ENTRADA,
     PRINCIPAL,
@@ -196,10 +196,13 @@ setlocale(LC_ALL, "portuguese");
     Pedido *pedidos = NULL;
     int quantidadePedidos = 0;
     int opcao;
-
+    printf("\n");
+    printf("Seja bem-vindo ao Sistema de Gerenciamento de pedidos do Restaurante Comidas do Sertão!\n1Fique a vontade para travez a melhor experiência para os nossos clientes  <3.\n");
+        
     do {
         //tabela de opções
         printf("\nMenu:\n");
+        printf("======== Restaurante =========\n");
         printf("1 - Adicionar item ao cardápio\n");
         printf("2 - Exibir cardápio\n");
         printf("3 - Criar pedido\n");
@@ -207,7 +210,9 @@ setlocale(LC_ALL, "portuguese");
         printf("5 - Alterar status de pedido\n");
         printf("6 - Finalizar pedido\n");
         printf("0 - Sair\n");
+        printf("==============================\n");
         printf("Escolha uma opção: ");
+        printf("\n");
         scanf("%d", &opcao);
 
         switch (opcao) {
