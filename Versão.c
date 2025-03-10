@@ -3,14 +3,12 @@
 #include <string.h>
 #include <locale.h>
 
-
 typedef enum {
     ENTRADA,
     PRINCIPAL,
     SOBREMESA,
     BEBIDA
-} CategoriaItem;
-
+} Categoria;
 
 typedef enum {
     PENDENTE,
@@ -19,293 +17,394 @@ typedef enum {
     ENTREGUE
 } StatusPedido;
 
-
 typedef struct {
+    int id;
     char nome[50];
     char descricao[100];
     float preco;
-    CategoriaItem categoria;
-} ItemCardapio;
-
+    Categoria categoria;
+} Item;
 
 typedef struct {
     int id;
     char cliente[50];
-    ItemCardapio *itens;
-    int quantidade;
+    Item *itens;
+    int quantidadeItens;
     StatusPedido status;
 } Pedido;
-
-
-ItemCardapio *cardapio = NULL;
-int totalItens = 0;
-Pedido *pedidos = NULL;
-int totalPedidos = 0;
-
 
 void limparBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-
-CategoriaItem obterCategoriaPorNumero(int num) {
-    switch (num) {
-        case 0: return ENTRADA;
-        case 1: return PRINCIPAL;
-        case 2: return SOBREMESA;
-        case 3: return BEBIDA;
-        default: return ENTRADA;
+const char* obterNomeCategoria(Categoria categoria) {
+    switch (categoria) {
+        case ENTRADA: return "Entrada";
+        case PRINCIPAL: return "Prato Principal";
+        case SOBREMESA: return "Sobremesa";
+        case BEBIDA: return "Bebida";
+        default: return "Desconhecido";
     }
 }
 
+// Função para obter o nome do status como string
+const char* obterNomeStatus(StatusPedido status) {
+    switch (status) {
+        case PENDENTE: return "Pendente";
+        case EM_PREPARO: return "Em Preparação";
+        case PRONTO: return "Pronto";
+        case ENTREGUE: return "Entregue";
+        default: return "Desconhecido";
+    }
+}
 
-void adicionarItemCardapio() {
-    ItemCardapio *temp = realloc(cardapio, (totalItens + 1) * sizeof(ItemCardapio));
-    if (!temp) {
-        printf("Erro ao alocar memória!\n");
+void adicionarItem(Item **cardapio, int *quantidade) {
+    *cardapio = realloc(*cardapio, (*quantidade + 1) * sizeof(Item));
+    if (*cardapio == NULL) {
+        printf("Erro ao alocar memória.\n");
         return;
     }
-    cardapio = temp;
 
+    Item *novoItem = &(*cardapio)[*quantidade];
+    novoItem->id = *quantidade + 1;
 
     printf("Nome do item: ");
-    fgets(cardapio[totalItens].nome, sizeof(cardapio[totalItens].nome), stdin);
-    cardapio[totalItens].nome[strcspn(cardapio[totalItens].nome, "\n")] = 0;
-
+    scanf(" %[^\n]", novoItem->nome);
 
     printf("Descrição: ");
-    fgets(cardapio[totalItens].descricao, sizeof(cardapio[totalItens].descricao), stdin);
-    cardapio[totalItens].descricao[strcspn(cardapio[totalItens].descricao, "\n")] = 0;
-
+    scanf(" %[^\n]", novoItem->descricao);
 
     printf("Preço: ");
-    if (scanf("%f", &cardapio[totalItens].preco) != 1) {
-        printf("Entrada inválida!\n");
+    scanf("%f", &novoItem->preco);
+
+    printf("Categoria (0-Entrada, 1-Prato Principal, 2-Sobremesa, 3-Bebida): ");
+    int cat;
+    if (scanf("%d", &cat) != 1 || cat < 0 || cat > 3) {
+        printf("\nOpção Inválida!\n");
+        limparBuffer();
+        return;
+    } else {
+        novoItem->categoria = (Categoria)cat;
+    }    
+    (*quantidade)++;
+    printf("Item adicionado com sucesso!\n");
+}
+
+void removerItem(Item **cardapio, int *quantidade) {
+    if (*quantidade == 0) {
+        printf("O cardápio está vazio!\n");
+        return;
+    }
+
+    int id;
+    int i;
+    printf("Digite o ID do item a ser removido: ");
+    if (scanf("%d", &id) != 1 || id < 1 || id > *quantidade) {
+        printf("ID inválido!\n");
         limparBuffer();
         return;
     }
+
+    for (i = id - 1; i < *quantidade - 1; i++) {
+        (*cardapio)[i] = (*cardapio)[i + 1];
+    }
+
+    (*quantidade)--;
+    Item *temp = realloc(*cardapio, (*quantidade) * sizeof(Item));
+    if (temp == NULL && *quantidade > 0) {
+        printf("Erro ao realocar memória.\n");
+        return;
+    }
+    *cardapio = temp;
+
+    printf("Item removido com sucesso!\n");
+}
+
+void atualizarItem(Item *cardapio, int quantidade) {
+    if (quantidade == 0) {
+        printf("O cardápio está vazio!\n");
+        return;
+    }
+    int id;
+    printf("Digite o ID do item a ser atualizado: ");
+    if (scanf("%d", &id) != 1 || id < 1 || id > quantidade) {
+        printf("ID inválido!\n");
+        limparBuffer();
+        return;
+    }
+
+    Item *item = &cardapio[id - 1];
+
+    printf("Novo nome do item: ");
+    scanf(" %[^\n]", item->nome);
     limparBuffer();
 
+    printf("Nova descrição: ");
+    scanf(" %[^\n]", item->descricao);
+    limparBuffer();
 
+    printf("Novo preço: ");
+    if (scanf("%f", &item->preco) != 1) {
+        printf("Preço inválido!\n");
+        limparBuffer();
+        return;
+    }
+
+    printf("Nova categoria (0-Entrada, 1-Prato Principal, 2-Sobremesa, 3-Bebida): ");
     int cat;
-    printf("Categoria (0-Entrada, 1-Principal, 2-Sobremesa, 3-Bebida): ");
     if (scanf("%d", &cat) != 1 || cat < 0 || cat > 3) {
         printf("Categoria inválida!\n");
         limparBuffer();
         return;
     }
-    limparBuffer();
-    cardapio[totalItens].categoria = obterCategoriaPorNumero(cat);
+    item->categoria = (Categoria)cat;
 
-
-    totalItens++;
-    printf("Item adicionado com sucesso!\n");
+    printf("Item atualizado com sucesso!\n");
 }
 
-
-void removerItemCardapio() {
-    if (totalItens == 0) {
-        printf("O cardápio está vazio!\n");
-        return;
-    }
-    int id;
-    printf("Digite o número do item a ser removido: ");
-    scanf("%d", &id);
-    limparBuffer();
-
-
-    if (id < 1 || id > totalItens) {
-        printf("Item inválido!\n");
-        return;
-    }
-    
-
-    for (int i = id - 1; i < totalItens - 1; i++) {
-        cardapio[i] = cardapio[i + 1];
-    }
-
-
-    totalItens--;
-    cardapio = realloc(cardapio, totalItens * sizeof(ItemCardapio));
-    printf("Item removido com sucesso!\n");
+void gerenciarCardapio(Item **cardapio, int *quantidade) {
+    int opcao;
+    do {
+        printf("\n=== Gerenciamento do Cardápio ===\n");
+        printf("1. Exibir cardápio\n");
+        printf("2. Adicionar item ao cardápio\n");
+        printf("3. Remover item do cardápio\n");
+        printf("4. Atualizar item do cardápio\n");
+        printf("0. Voltar ao menu principal\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+        switch (opcao) {
+            case 1:
+                if (*quantidade == 0) {
+                    printf("\nO cardápio está vazio!\n");
+                } else {
+                    printf("\n=== Cardápio ===\n");
+                    int i = 0;
+                    for (i = 0; i < *quantidade; i++) {
+                        printf("ID: %d\n", (*cardapio)[i].id);
+                        printf("Nome: %s\n", (*cardapio)[i].nome);
+                        printf("Descrição: %s\n", (*cardapio)[i].descricao);
+                        printf("Preço: R$ %.2f\n", (*cardapio)[i].preco);
+                        printf("Categoria: %s\n", obterNomeCategoria((*cardapio)[i].categoria));
+                        printf("-----------------------\n");
+                    }
+                }
+                break;
+            case 2:
+                adicionarItem(cardapio, quantidade);
+                break;
+            case 3:
+                removerItem(cardapio, quantidade);
+                break;
+            case 4:
+                atualizarItem(*cardapio, *quantidade);
+                break;
+            case 0:
+                printf("Voltando ao menu principal...\n");
+                break;
+            default:
+                if (scanf("%d", &opcao) != 1 || opcao < 0 || opcao > 4) {
+                    printf("Opção inválida!\n");
+                    limparBuffer();
+                    return;
+                }
+        }
+    } while (opcao != 0);
 }
 
-
-void exibirCardapio() {
-    if (totalItens == 0) {
-        printf("\nO cardápio está vazio!\n");
+void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio) {
+    *pedidos = realloc(*pedidos, (*quantidadePedidos + 1) * sizeof(Pedido));
+    if (*pedidos == NULL) {
+        printf("Erro ao alocar memória para o pedido.\n");
         return;
     }
 
-
-    printf("\n--- Cardápio ---\n");
-    for (int i = 0; i < totalItens; i++) {
-        char *categorias[] = {"Entrada", "Principal", "Sobremesa", "Bebida"};
-        printf("%d - %s | %s | R$%.2f | %s\n",
-               i + 1, cardapio[i].nome, cardapio[i].descricao, cardapio[i].preco, categorias[cardapio[i].categoria]);
-    }
-}
-
-
-void registrarPedido() {
-    if (totalItens == 0) {
-        printf("Não há itens no cardápio para realizar um pedido!\n");
-        return;
-    }
-
-
-    Pedido *temp = realloc(pedidos, (totalPedidos + 1) * sizeof(Pedido));
-    if (!temp) {
-        printf("Erro ao alocar memória!\n");
-        return;
-    }
-    pedidos = temp;
-
-
-    Pedido *p = &pedidos[totalPedidos];
-    p->id = totalPedidos + 1;
-
+    Pedido *novoPedido = &(*pedidos)[*quantidadePedidos];
+    novoPedido->id = *quantidadePedidos + 1;
 
     printf("Nome do cliente: ");
-    fgets(p->cliente, sizeof(p->cliente), stdin);
-    p->cliente[strcspn(p->cliente, "\n")] = 0;
-
-
-    exibirCardapio();
-    printf("Quantos itens deseja? ");
-    if (scanf("%d", &p->quantidade) != 1 || p->quantidade <= 0) {
-        printf("Entrada inválida!\n");
-        limparBuffer();
-        return;
-    }
+    scanf(" %[^\n]", novoPedido->cliente);
     limparBuffer();
 
-
-    p->itens = malloc(p->quantidade * sizeof(ItemCardapio));
-    if (!p->itens) {
-        printf("Erro ao alocar memória!\n");
+    novoPedido->itens = malloc(sizeof(Item) * 1);
+    if (novoPedido->itens == NULL) {
+        printf("Erro ao alocar memória para os itens do pedido.\n");
         return;
     }
+    novoPedido->quantidadeItens = 0;
 
-
-    for (int i = 0; i < p->quantidade; i++) {
-        int itemIndex;
-        printf("Escolha o item %d (número do cardápio): ", i + 1);
-        if (scanf("%d", &itemIndex) != 1 || itemIndex < 1 || itemIndex > totalItens) {
-            printf("Número inválido!\n");
+    int idItem;
+    printf("Informe os IDs dos itens para adicionar ao pedido (0 para finalizar):\n");
+    while (1) {
+        printf("ID do item: ");
+        if (scanf("%d", &idItem) != 1) {
+            printf("Entrada inválida. Por favor, insira um número.\n");
             limparBuffer();
+            continue;
+        }
+
+        if (idItem == 0) break;
+
+        if (idItem > 0 && idItem <= quantidadeCardapio) {
+            novoPedido->quantidadeItens++;
+            novoPedido->itens = realloc(novoPedido->itens, novoPedido->quantidadeItens * sizeof(Item));
+            if (novoPedido->itens == NULL) {
+                printf("Erro ao alocar memória para adicionar o item ao pedido.\n");
+                return;
+            }
+            novoPedido->itens[novoPedido->quantidadeItens - 1] = cardapio[idItem - 1];
+        } else {
+            printf("Item inválido.\n");
+        }
+    }
+
+    if (novoPedido->quantidadeItens > 0) {
+        novoPedido->status = PENDENTE;
+        (*quantidadePedidos)++;
+        printf("Pedido criado com sucesso!\n");
+    } else {
+        free(novoPedido->itens);
+        printf("Pedido não foi criado. Nenhum item foi adicionado.\n");
+    }
+}
+
+void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, StatusPedido novoStatus) {
+    for (int i = 0; i < quantidadePedidos; i++) {
+        if (pedidos[i].id == idPedido) {
+            pedidos[i].status = novoStatus;
+            printf("Status do pedido %d alterado para %s.\n", idPedido, obterNomeStatus(novoStatus));
             return;
         }
-        limparBuffer();
-        p->itens[i] = cardapio[itemIndex - 1];
     }
-
-
-    p->status = PENDENTE;
-    totalPedidos++;
-    printf("Pedido registrado com sucesso!\n");
+    printf("Pedido não encontrado.\n");
 }
 
-
-void removerPedido() {
-    if (totalPedidos == 0) {
-        printf("Não há pedidos registrados!\n");
-        return;
-    }
-    int id;
-    printf("Digite o ID do pedido a ser removido: ");
-    scanf("%d", &id);
-    limparBuffer();
-
-
-    if (id < 1 || id > totalPedidos) {
-        printf("Pedido não encontrado!\n");
-        return;
-    }
-
-
-    free(pedidos[id - 1].itens);
-    for (int i = id - 1; i < totalPedidos - 1; i++) {
-        pedidos[i] = pedidos[i + 1];
-    }
-
-
-    totalPedidos--;
-    pedidos = realloc(pedidos, totalPedidos * sizeof(Pedido));
-    printf("Pedido removido com sucesso!\n");
+void finalizarPedido(Pedido *pedidos, int quantidadePedidos, int idPedido) {
+    alterarStatusPedido(pedidos, quantidadePedidos, idPedido, ENTREGUE);
+    printf("Pedido %d finalizado com sucesso!\n", idPedido);
 }
 
+void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio) {
+    int opcao;
+    do {
+        printf("\n=== Gerenciamento de Pedidos ===\n");
+        printf("1. Exibir pedidos\n");
+        printf("2. Criar novo pedido\n");
+        printf("3. Alterar status de pedido\n");
+        printf("4. Finalizar pedido\n");
+        printf("0. Voltar ao menu principal\n");
+        printf("Escolha uma opção: ");
+        if (scanf("%d", &opcao) != 1) {
+            printf("Opção inválida!\n");
+            limparBuffer();
+            continue;
+        }
 
-void atualizarStatusPedido() {
-    if (totalPedidos == 0) {
-        printf("Não há pedidos para atualizar!\n");
-        return;
-    }
-
-
-    int id, status;
-    printf("Digite o ID do pedido: ");
-    if (scanf("%d", &id) != 1 || id < 1 || id > totalPedidos) {
-        printf("Pedido não encontrado!\n");
-        limparBuffer();
-        return;
-    }
-    limparBuffer();
-
-
-    printf("Selecione o novo status (0-Pendente, 1-Em Preparo, 2-Pronto, 3-Entregue): ");
-    if (scanf("%d", &status) != 1 || status < 0 || status > 3) {
-        printf("Status inválido!\n");
-        limparBuffer();
-        return;
-    }
-    limparBuffer();
-
-
-    pedidos[id - 1].status = status;
-    printf("Status atualizado com sucesso!\n");
+        switch (opcao) {
+            case 1:
+                if (*quantidadePedidos == 0) {
+                    printf("\nNão há pedidos registrados!\n");
+                } else {
+                    printf("\n=== Pedidos ===\n");
+                    for (int i = 0; i < *quantidadePedidos; i++) {
+                        printf("ID do pedido: %d\n", (*pedidos)[i].id);
+                        printf("Cliente: %s\n", (*pedidos)[i].cliente);
+                        printf("Status: %s\n", obterNomeStatus((*pedidos)[i].status));
+                        printf("Itens do pedido:\n");
+                        for (int j = 0; j < (*pedidos)[i].quantidadeItens; j++) {
+                            printf("  - %s (R$ %.2f)\n", (*pedidos)[i].itens[j].nome, (*pedidos)[i].itens[j].preco);
+                        }
+                        printf("-----------------------\n");
+                    }
+                }
+                break;
+            case 2:
+                criarPedido(pedidos, quantidadePedidos, cardapio, quantidadeCardapio);
+                break;
+            case 3: {
+                int idPedido, novoStatus;
+                printf("Informe o ID do pedido para alterar o status: ");
+                if (scanf("%d", &idPedido) != 1) {
+                    printf("Entrada inválida. Por favor, insira um número.\n");
+                    limparBuffer();
+                    continue;
+                }
+                printf("Informe o novo status (0-Pendente, 1-Em Preparo, 2-Pronto, 3-Entregue): ");
+                if (scanf("%d", &novoStatus) != 1 || novoStatus < 0 || novoStatus > 3) {
+                    printf("Status inválido.\n");
+                    limparBuffer();
+                    continue;
+                }
+                alterarStatusPedido(*pedidos, *quantidadePedidos, idPedido, (StatusPedido)novoStatus);
+                break;
+            }
+            case 4: {
+                int idPedido;
+                printf("Informe o ID do pedido para finalizar: ");
+                if (scanf("%d", &idPedido) != 1) {
+                    printf("Entrada inválida. Por favor, insira um número.\n");
+                    limparBuffer();
+                    continue;
+                }
+                finalizarPedido(*pedidos, *quantidadePedidos, idPedido);
+                break;
+            }
+            case 0:
+                printf("Voltando ao menu principal...\n");
+                break;
+            default:
+                printf("Opção inválida!\n");
+        }
+    } while (opcao != 0);
 }
-
-
-void exibirPedidos() {
-    if (totalPedidos == 0) {
-        printf("\nNão há pedidos registrados!\n");
-        return;
-    }
-
-
-    printf("\n--- Pedidos ---\n");
-    for (int i = 0; i < totalPedidos; i++) {
-        printf("Pedido #%d | Cliente: %s | Status: %d | Itens: %d\n",
-               pedidos[i].id, pedidos[i].cliente, pedidos[i].status, pedidos[i].quantidade);
-    }
-}
-
 
 int main() {
     setlocale(LC_ALL, "Portuguese");
+
+    Item *cardapio = NULL;
+    int quantidadeCardapio = 0;
+    Pedido *pedidos = NULL;
+    int quantidadePedidos = 0;
     int opcao;
+
+    printf("\nSeja bem-vindo ao Sistema de Gerenciamento de Pedidos do Restaurante Comidas do Sertão!\n");
+    printf("Fique à vontade para proporcionar a melhor experiência para os nossos clientes <3.\n");
+
     do {
-        printf("\n1. Adicionar item ao cardápio\n2. Remover item do cardápio\n3. Exibir cardápio\n4. Registrar pedido\n5. Remover pedido\n6. Atualizar status de pedido\n7. Exibir pedidos\n0. Sair\nEscolha uma opção: ");
+        printf("\nMenu:\n");
+        printf("======== Restaurante =========\n");
+        printf("1 - Gerenciar Cardápio\n");
+        printf("2 - Gerenciar Pedidos\n");
+        printf("0 - Sair\n");
+        printf("==============================\n");
+        printf("Escolha uma opção: ");
         scanf("%d", &opcao);
-        limparBuffer();
+
         switch (opcao) {
-            case 1: adicionarItemCardapio(); break;
-            case 2: removerItemCardapio(); break;
-            case 3: exibirCardapio(); break;
-            case 4: registrarPedido(); break;
-            case 5: removerPedido(); break;
-            case 6: atualizarStatusPedido(); break;
-            case 7: exibirPedidos(); break;
-            case 0: printf("Encerrando sistema...\n"); break;
-            default: printf("Opção inválida!\n");
+            case 1:
+                gerenciarCardapio(&cardapio, &quantidadeCardapio);
+                break;
+            case 2:
+                gerenciarPedidos(&pedidos, &quantidadePedidos, cardapio, quantidadeCardapio);
+                break;
+            case 0:
+                printf("Encerrando o programa...\n");
+                break;
+            default:
+                if (scanf("%d", &opcao) != 1 || opcao < 0 || opcao > 4) {
+                    printf("Opção inválida!\n");
+                    limparBuffer();
+                    return 1;
+                }
         }
     } while (opcao != 0);
 
-
     free(cardapio);
-    for (int i = 0; i < totalPedidos; i++) free(pedidos[i].itens);
+    for (int i = 0; i < quantidadePedidos; i++) {
+        free(pedidos[i].itens);
+    }
     free(pedidos);
+
     return 0;
 }
