@@ -92,6 +92,8 @@ void adicionarItem(Item **cardapio, int *quantidade) {
     printf("Item adicionado com sucesso!\n");
 }
 
+//Andson concerte os erros que você achou
+
 void removerItem(Item **cardapio, int *quantidade) {
     if (*quantidade == 0) {
         printf("O cardápio está vazio!\n");
