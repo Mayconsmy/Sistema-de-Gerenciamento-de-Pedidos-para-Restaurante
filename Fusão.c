@@ -374,9 +374,14 @@ int main() {
                 printf("Encerrando o programa...\n");
                 break;
             default:
-                printf("Opção inválida!\n");
+                if (scanf("%d", &opcao) != 1 || opcao < 0 || opcao > 4){
+                    printf("Opção inválida!\n");
+                    limparBuffer();
+                    return;
+                }
         }
-    } while (opcao != 0);
+    }
+    while (opcao != 0);
 
     free(cardapio);
     int i = 0;
