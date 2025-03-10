@@ -77,7 +77,7 @@ void adicionarItem(Item **cardapio, int *quantidade) {
 
     printf("Preço: ");
     scanf("%f", &novoItem->preco);
-
+    //resolvido
     printf("Categoria (0-Entrada, 1-Prato Principal, 2-Sobremesa, 3-Bebida): ");
     int cat;
     if (scanf("%d", &cat) != 1 || cat < 0 || cat > 3) {
@@ -162,7 +162,7 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
         printf("4. Atualizar item do cardápio\n");
         printf("0. Voltar ao menu principal\n");
         printf("Escolha uma opção: ");
-
+        //resolvido
         if (scanf("%d", &opcao) != 1 || opcao < 0 || opcao > 4) {
             printf("Categoria inválida!\n");
             limparBuffer(); // Limpa o buffer de entrada para evitar loops infinitos
@@ -265,7 +265,7 @@ void finalizarPedido(Pedido *pedidos, int quantidadePedidos, int idPedido) {
     alterarStatusPedido(pedidos, quantidadePedidos, idPedido, ENTREGUE);
     printf("Pedido %d finalizado com sucesso!\n", idPedido);
 }
-
+//resolvido
 void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio) {
     int opcao;
     do {
@@ -310,18 +310,8 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
                 int idPedido, novoStatus;
                 printf("Informe o ID do pedido para alterar o status: ");
                 scanf("%d", &idPedido);
-
-                do {
-                    printf("Informe o novo status (0-Pendente, 1-Em Preparo, 2-Pronto, 3-Entregue): ");
-                    if (scanf("%d", &novoStatus) != 1) {
-                        printf("Entrada inválida! Por favor, insira um número.\n");
-                        limparBuffer(); // Limpa o buffer de entrada para evitar loops infinitos
-                        novoStatus = -1; // Define um valor inválido para continuar o loop
-                    } else if (novoStatus < 0 || novoStatus > 3) {
-                        printf("Opção inválida! Por favor, insira um número entre 0 e 3.\n");
-                    }
-                } while (novoStatus < 0 || novoStatus > 3);
-
+                printf("Informe o novo status (0-Pendente, 1-Em Preparo, 2-Pronto, 3-Entregue): ");
+                scanf("%d", &novoStatus);
                 alterarStatusPedido(*pedidos, *quantidadePedidos, idPedido, (StatusPedido)novoStatus);
                 break;
             }
