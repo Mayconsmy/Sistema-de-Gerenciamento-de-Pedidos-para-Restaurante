@@ -81,7 +81,7 @@ void adicionarItem(Item **cardapio, int *quantidade) {
     printf("Categoria (0-Entrada, 1-Prato Principal, 2-Sobremesa, 3-Bebida): ");
     int cat;
     if (scanf("%d", &cat) != 1 || cat < 0 || cat > 3) {
-        printf("Categoria inválida!\n");
+        printf("\nOpçao Invalida!\n");
         limparBuffer();
         return;
     }
