@@ -80,9 +80,14 @@ void adicionarItem(Item **cardapio, int *quantidade) {
 
     printf("Categoria (0-Entrada, 1-Prato Principal, 2-Sobremesa, 3-Bebida): ");
     int cat;
-    scanf("%d", &cat);
+    if (scanf("%d", &cat) != 1 || cat < 0 || cat > 3) {
+        printf("Categoria inválida!\n");
+        limparBuffer();
+        return;
+    }
+    else{
     novoItem->categoria = (Categoria)cat;
-
+    }    
     (*quantidade)++;
     printf("Item adicionado com sucesso!\n");
 }
@@ -101,8 +106,8 @@ void removerItem(Item **cardapio, int *quantidade) {
         printf("ID inválido!\n");
         return;
     }
-
-    for (int i = id - 1; i < *quantidade - 1; i++) {
+    int i = 0;
+    for (i = id - 1; i < *quantidade - 1; i++) {
         (*cardapio)[i] = (*cardapio)[i + 1];
     }
 
@@ -163,7 +168,8 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
                     printf("\nO cardápio está vazio!\n");
                 } else {
                     printf("\n=== Cardápio ===\n");
-                    for (int i = 0; i < *quantidade; i++) {
+                    int i = 0;
+                    for (i = 0; i < *quantidade; i++) {
                         printf("ID: %d\n", (*cardapio)[i].id);
                         printf("Nome: %s\n", (*cardapio)[i].nome);
                         printf("Descrição: %s\n", (*cardapio)[i].descricao);
@@ -238,7 +244,8 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
 }
 
 void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, StatusPedido novoStatus) {
-    for (int i = 0; i < quantidadePedidos; i++) {
+    int i = 0;
+    for (i = 0; i < quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
             pedidos[i].status = novoStatus;
             printf("Status do pedido %d alterado para %s.\n", idPedido, obterNomeStatus(novoStatus));
@@ -271,12 +278,14 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
                     printf("\nNão há pedidos registrados!\n");
                 } else {
                     printf("\n=== Pedidos ===\n");
-                    for (int i = 0; i < *quantidadePedidos; i++) {
+                    int i = 0;
+                    for (i = 0; i < *quantidadePedidos; i++) {
                         printf("ID do pedido: %d\n", (*pedidos)[i].id);
                         printf("Cliente: %s\n", (*pedidos)[i].cliente);
                         printf("Status: %s\n", obterNomeStatus((*pedidos)[i].status));
                         printf("Itens do pedido:\n");
-                        for (int j = 0; j < (*pedidos)[i].quantidadeItens; j++) {
+                        int j = 0;
+                        for (j = 0; j < (*pedidos)[i].quantidadeItens; j++) {
                             printf("  - %s (R$ %.2f)\n", (*pedidos)[i].itens[j].nome, (*pedidos)[i].itens[j].preco);
                         }
                         printf("-----------------------\n");
@@ -349,7 +358,8 @@ int main() {
     } while (opcao != 0);
 
     free(cardapio);
-    for (int i = 0; i < quantidadePedidos; i++) {
+    int i = 0;
+    for (i = 0; i < quantidadePedidos; i++) {
         free(pedidos[i].itens);
     }
     free(pedidos);
