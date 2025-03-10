@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//oioioi
+//oioiooi
 typedef enum {
     ENTRADA,
     PRINCIPAL,
