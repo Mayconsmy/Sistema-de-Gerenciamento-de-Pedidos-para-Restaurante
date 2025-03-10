@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
 
 typedef enum {
     ENTRADA,
@@ -332,7 +331,6 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
 }
 
 int main() {
-    setlocale(LC_ALL, "Portuguese");
 
     Item *cardapio = NULL;
     int quantidadeCardapio = 0;
