@@ -33,6 +33,7 @@ typedef struct {
     StatusPedido status;
 } Pedido;
 
+// Função para limpar o buffer do teclado
 void limparBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
