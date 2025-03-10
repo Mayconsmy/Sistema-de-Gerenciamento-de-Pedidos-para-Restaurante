@@ -276,7 +276,12 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
         printf("4. Finalizar pedido\n");
         printf("0. Voltar ao menu principal\n");
         printf("Escolha uma opção: ");
-        scanf("%d", &opcao);
+        if (scanf("%d", &opcao) != 1 || opcao < 0 || opcao > 4) {
+            printf("opcao invalida!\n");
+            limparBuffer(); // Limpa o buffer de entrada para evitar loops infinitos
+            return;
+        }
+        
 
         switch (opcao) {
             case 1:
@@ -305,8 +310,18 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
                 int idPedido, novoStatus;
                 printf("Informe o ID do pedido para alterar o status: ");
                 scanf("%d", &idPedido);
-                printf("Informe o novo status (0-Pendente, 1-Em Preparo, 2-Pronto, 3-Entregue): ");
-                scanf("%d", &novoStatus);
+
+                do {
+                    printf("Informe o novo status (0-Pendente, 1-Em Preparo, 2-Pronto, 3-Entregue): ");
+                    if (scanf("%d", &novoStatus) != 1) {
+                        printf("Entrada inválida! Por favor, insira um número.\n");
+                        limparBuffer(); // Limpa o buffer de entrada para evitar loops infinitos
+                        novoStatus = -1; // Define um valor inválido para continuar o loop
+                    } else if (novoStatus < 0 || novoStatus > 3) {
+                        printf("Opção inválida! Por favor, insira um número entre 0 e 3.\n");
+                    }
+                } while (novoStatus < 0 || novoStatus > 3);
+
                 alterarStatusPedido(*pedidos, *quantidadePedidos, idPedido, (StatusPedido)novoStatus);
                 break;
             }
