@@ -94,7 +94,6 @@ void adicionarItem(Item **cardapio, int *quantidade) {
     printf("Item adicionado com sucesso!\n");
 }
 
-
 // Função para remover um item do cardápio
 void removerItem(Item **cardapio, int *quantidade) {
     if (*quantidade == 0) {
