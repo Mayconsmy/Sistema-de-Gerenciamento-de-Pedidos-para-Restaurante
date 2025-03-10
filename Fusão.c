@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//Doido o código, mas eu acho que está tudo certo, só que não está rodando, mas eu acho que é porque o código está muito grande
+//Andson, eu acho que o erro está na função gerenciarPedidos, pois ela não está chamando a função criarPedido, e a função criarPedido está chamando a função alterarStatusPedido, que está chamando a função finalizarPedido, e a função finalizar
 
 typedef enum {
     ENTRADA,
