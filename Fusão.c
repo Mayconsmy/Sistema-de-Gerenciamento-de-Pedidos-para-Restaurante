@@ -162,8 +162,12 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
         printf("4. Atualizar item do cardápio\n");
         printf("0. Voltar ao menu principal\n");
         printf("Escolha uma opção: ");
-        scanf("%d", &opcao);
 
+        if (scanf("%d", &opcao) != 1 || opcao < 0 || opcao > 4) {
+            printf("Categoria inválida!\n");
+            limparBuffer(); // Limpa o buffer de entrada para evitar loops infinitos
+            return;
+        }
         switch (opcao) {
             case 1:
                 if (*quantidade == 0) {
