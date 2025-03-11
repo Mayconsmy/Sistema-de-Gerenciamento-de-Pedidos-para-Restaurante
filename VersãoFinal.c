@@ -3,6 +3,7 @@
 #include <string.h>
 #include <locale.h>
 
+// Enumerações das categorias dos itens e os status dos pedidos
 typedef enum {
     ENTRADA,
     PRINCIPAL,
