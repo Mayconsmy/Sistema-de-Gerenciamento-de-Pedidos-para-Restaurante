@@ -139,17 +139,17 @@ void atualizarItem(Item *cardapio, int quantidade) {
         limparBuffer(); 
         return;
     }
-    limparBuffer(); // Limpar buffer após leitura do ID
+    limparBuffer(); 
 
     Item *item = &cardapio[id - 1];
 
     printf("Novo nome do item: ");
     scanf(" %[^\n]", item->nome);
-    limparBuffer(); // Limpar buffer após leitura do nome
+    limparBuffer(); 
 
     printf("Nova descrição: ");
     scanf(" %[^\n]", item->descricao);
-    limparBuffer(); // Limpar buffer após leitura da descrição
+    limparBuffer(); 
 
     printf("Novo preço: ");
     if (scanf("%f", &item->preco) != 1) {
@@ -157,7 +157,7 @@ void atualizarItem(Item *cardapio, int quantidade) {
         limparBuffer(); 
         return;
     }
-    limparBuffer(); // Limpar buffer após leitura do preço
+    limparBuffer(); 
 
     printf("Nova categoria (0-Entrada, 1-Prato Principal, 2-Sobremesa, 3-Bebida): ");
     int cat;
@@ -167,7 +167,7 @@ void atualizarItem(Item *cardapio, int quantidade) {
         return;
     }
     item->categoria = (Categoria)cat;
-    limparBuffer(); // Limpar buffer após leitura da categoria
+    limparBuffer();
 
     printf("Item atualizado com sucesso!\n");
 }
