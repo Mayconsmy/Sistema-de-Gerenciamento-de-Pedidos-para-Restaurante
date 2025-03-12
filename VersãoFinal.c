@@ -79,7 +79,11 @@ void adicionarItem(Item **cardapio, int *quantidade) {
     scanf(" %[^\n]", novoItem->descricao);
 
     printf("Preço: ");
-    scanf("%f", &novoItem->preco);
+    while (scanf("%f", &novoItem->preco) != 1 || novoItem->preco <= 0) {
+        printf("Preço inválido! Por favor, insira um valor positivo: ");
+        limparBuffer();
+    }
+    limparBuffer();
     
     printf("Categoria (0-Entrada, 1-Prato Principal, 2-Sobremesa, 3-Bebida): ");
     int cat;
