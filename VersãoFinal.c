@@ -72,14 +72,32 @@ void adicionarItem(Item **cardapio, int *quantidade) {
     Item *novoItem = &(*cardapio)[*quantidade];
     novoItem->id = *quantidade + 1;
 
-    printf("Nome do item: ");
-    scanf(" %[^\n]", novoItem->nome);
+    int nomeValido = 0;
+    while (!nomeValido) {
+        printf("Nome do item: ");
+        scanf(" %[^\n]", novoItem->nome);
+        limparBuffer();
+
+        nomeValido = 1;
+        int i;
+        for (i = 0; novoItem->nome[i] != '\0'; i++) {
+            if (isdigit(novoItem->nome[i])) {
+                nomeValido = 0;
+                printf("Nome inválido! Por favor, insira um nome sem números.\n");
+                break;
+            }
+        }
+    }
 
     printf("Descrição: ");
     scanf(" %[^\n]", novoItem->descricao);
 
     printf("Preço: ");
-    scanf("%f", &novoItem->preco);
+    while (scanf("%f", &novoItem->preco) != 1 || novoItem->preco <= 0) {
+        printf("Preço inválido! Por favor, insira um valor positivo: ");
+        limparBuffer();
+    }
+    limparBuffer();
     
     printf("Categoria (0-Entrada, 1-Prato Principal, 2-Sobremesa, 3-Bebida): ");
     int cat;
@@ -145,7 +163,7 @@ void atualizarItem(Item *cardapio, int quantidade) {
 
     printf("Novo nome do item: ");
     scanf(" %[^\n]", item->nome);
-    limparBuffer(); 
+    limparBuffer(); // Limpar buffer após leitura do nome
 
     printf("Nova descrição: ");
     scanf(" %[^\n]", item->descricao);
@@ -238,9 +256,22 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
     Pedido *novoPedido = &(*pedidos)[*quantidadePedidos];
     novoPedido->id = *quantidadePedidos + 1;
 
-    printf("Nome do cliente: ");
-    scanf(" %[^\n]", novoPedido->cliente);
-    limparBuffer(); 
+    int nomeValido = 0;
+    while (!nomeValido) {
+        printf("Nome do cliente: ");
+        scanf(" %[^\n]", novoPedido->cliente);
+        limparBuffer();
+
+        nomeValido = 1;
+        int i;
+        for (i = 0; novoPedido->cliente[i] != '\0'; i++) {
+            if (isdigit(novoPedido->cliente[i])) {
+                nomeValido = 0;
+                printf("Nome inválido! Por favor, insira um nome sem números.\n");
+                break;
+            }
+        }
+    }
 
     novoPedido->itens = malloc(sizeof(Item) * 1);
     if (novoPedido->itens == NULL) {
