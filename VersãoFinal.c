@@ -179,15 +179,20 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
         printf("4. Atualizar item do cardápio\n");
         printf("0. Voltar ao menu principal\n");
         printf("Escolha uma opção: ");
-        //resolvido
-        scanf("%d", &opcao);
+        
+        if (scanf("%d", &opcao) != 1) {
+            printf("Opção inválida!\n");
+            limparBuffer();
+            continue;
+        }
+
         switch (opcao) {
             case 1:
                 if (*quantidade == 0) {
                     printf("\nO cardápio está vazio!\n");
                 } else {
+                    int i;
                     printf("\n=== Cardápio ===\n");
-                    int i = 0;
                     for (i = 0; i < *quantidade; i++) {
                         printf("ID: %d\n", (*cardapio)[i].id);
                         printf("Nome: %s\n", (*cardapio)[i].nome);
@@ -211,11 +216,9 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
                 printf("Voltando ao menu principal...\n");
                 break;
             default:
-                if (scanf("%d", &opcao) != 1 || opcao < 0 || opcao > 4){
-                    printf("Opção inválida!\n");
-                    limparBuffer();
-                    return;
-                }
+                printf("Opção inválida!\n");
+                limparBuffer();
+                break;
         }
     } while (opcao != 0);
 }

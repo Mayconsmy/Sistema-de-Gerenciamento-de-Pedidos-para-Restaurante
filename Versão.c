@@ -404,7 +404,6 @@ int main() {
     for (int i = 0; i < quantidadePedidos; i++) {
         free(pedidos[i].itens);
     }
-    free(pedidos);
-
+    free(pedidos);  
     return 0;
 }
