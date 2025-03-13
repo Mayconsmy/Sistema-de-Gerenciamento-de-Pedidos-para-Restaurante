@@ -40,7 +40,7 @@ gcc main.c menu.c pedidos.c utils.c -o restaurante
 Certifique-se de que todos os arquivos .c e .h estejam no mesmo diretório.
 
 - Execução do Sistema
-- 
+  
 Após a compilação, execute o programa com o comando:
 
 ./restaurante
