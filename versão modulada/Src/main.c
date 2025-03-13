@@ -13,7 +13,7 @@ int main() {
     int quantidadePedidos = 0;
     int opcao;
 
-    printf("\nSeja bem-vindo ao Sistema de Gerenciamento de Pedidos do Restaurante Comidas do Sertão!\n");
+    printf("\nSeja bem-vindo ao Sistema de Gerenciamento de Pedidos do Restaurante!\n");
     printf("Fique à vontade para proporcionar a melhor experiência para os nossos clientes <3.\n");
 
     do {
