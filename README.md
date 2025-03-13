@@ -1,6 +1,14 @@
-# Sistema Restaurante "Comidas do Sertão"
-
+# Sistema Restaurante
 Projeto desenvolvido para a primeira unidade da disciplina **Estruturas de Dados 1** do professor **George Felipe Fernandes Vieira**.
+
+
+## Sumário
+- [📋 Descrição do projeto](#Descrição-do-Projeto)
+- [📋 Funcionalidades](#Funcionalidades)
+- [📋 Manual de Uso](#Manual-de-Uso)
+- [📋 Tecnologias e Conceitos Utilizados](#Tecnologias-e-Conceitos-Utilizados)
+- [📋 Discentes Envolvidos](#Discentes-Envolvidos)
+
 
 ## Descrição do Projeto
 
@@ -20,6 +28,37 @@ O **Sistema Restaurante "Dividão"** simula o funcionamento de um restaurante, p
 - **Gerenciamento de Pedidos**
   - Criação de pedidos com identificador, dados do cliente, lista de itens (referenciando os itens do cardápio) e status (utilizando enums como *Pendente*, *Em Preparo*, *Pronto* e *Entregue*).
   - Alteração do status dos pedidos e finalização dos mesmos, simulando o fluxo de atendimento de um restaurante.
+
+## Manual de Uso
+
+- Instruções para Compilação
+
+Para compilar o projeto, utilize o seguinte comando no terminal:
+
+gcc main.c menu.c pedidos.c utils.c -o restaurante
+
+Certifique-se de que todos os arquivos .c e .h estejam no mesmo diretório.
+
+- Execução do Sistema
+- 
+Após a compilação, execute o programa com o comando:
+
+./restaurante
+
+- Utilização do Sistema
+Ao iniciar o programa, você terá acesso ao seguinte menu interativo:
+
+======== Restaurante =========
+
+1 - Gerenciar Cardápio
+
+2 - Gerenciar Pedidos
+
+0 - Sair
+
+==============================
+
+Basta digitar o número correspondente à ação desejada e seguir as instruções exibidas.
 
 ## Tecnologias e Conceitos Utilizados
 
