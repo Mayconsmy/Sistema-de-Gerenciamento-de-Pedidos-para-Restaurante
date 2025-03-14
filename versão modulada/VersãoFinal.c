@@ -195,7 +195,7 @@ void exibirCardapioPorCategoria(Item *cardapio, int quantidade, Categoria catego
     printf("\n=== %s ===\n", obterNomeCategoria(categoria));
     for (int i = 0; i < quantidade; i++) {
         if (cardapio[i].categoria == categoria) {
-            printf("ID: %d\n", cardapio[i].id);
+            printf("\nID: %d\n", cardapio[i].id);
             printf("Nome: %s\n", cardapio[i].nome);
             printf("Descrição: %s\n", cardapio[i].descricao);
             printf("Preço: %.2f\n", cardapio[i].preco);
@@ -285,7 +285,7 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
 
     for (int i = 0; i < novoPedido->quantidadeItens; i++) {
         int idItem;
-        printf("ID do item %d: ", i + 1);
+        printf("\nID do item %d: ", i + 1);
         scanf("%d", &idItem);
         for (int j = 0; j < quantidadeCardapio; j++) {
             if (cardapio[j].id == idItem) {
