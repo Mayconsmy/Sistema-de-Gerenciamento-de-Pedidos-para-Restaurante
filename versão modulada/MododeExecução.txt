@@ -2,5 +2,5 @@
 
 gcc "versão modulada/Src/cardapio.c" "versão modulada/Src/main.c" "versão modulada/Src/pedidos.c" "versão modulada/Src/utils.c" -I "versão modulada/Include" -o Restaurante
 
-**Para a execução do programa existe dois meios, o primeiro é digitando o comando /.Restaurante (nome que foi dado por você) ou
-através dos arquivos do computador, lá aparecerá um arquivo .exe
+**Para a execução do programa existe dois meios, o primeiro é digitando o comando /.Restaurante (nome que foi dado por você no comando acima) ou
+através dos arquivos do computador onde as pastas do projeto forão salvas, lá aparecerá um arquivo .exe
