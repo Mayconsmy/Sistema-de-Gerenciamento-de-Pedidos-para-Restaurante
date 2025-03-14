@@ -82,7 +82,7 @@ void adicionarItem(Item **cardapio, int *quantidade) {
 
     Item *novoItem = &(*cardapio)[*quantidade];
     novoItem->id = *quantidade + 1;
-    printf("Nome: ");
+    printf("\nNome: ");
     limparBuffer();
     fgets(novoItem->nome, 50, stdin);
     novoItem->nome[strcspn(novoItem->nome, "\n")] = '\0';

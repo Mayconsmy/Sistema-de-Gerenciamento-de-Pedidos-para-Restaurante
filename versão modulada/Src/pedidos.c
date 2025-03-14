@@ -34,7 +34,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
             case 1:
                 // Exibir pedidos
                 for (int i = 0; i < *quantidadePedidos; i++) {
-                    printf("ID: %d\n", (*pedidos)[i].id);
+                    printf("\nID: %d\n", (*pedidos)[i].id);
                     printf("Cliente: %s\n", (*pedidos)[i].cliente);
                     printf("Quantidade de Itens: %d\n", (*pedidos)[i].quantidadeItens);
                     printf("Status: %s\n", obterNomeStatus((*pedidos)[i].status));
