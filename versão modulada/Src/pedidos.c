@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pedidos.h"
+
 // Função para gerenciar os pedidos
 void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio) {
     int opcao;
@@ -22,6 +23,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
 
         switch (opcao) {
             case 1:
+                // Exibir pedidos
                 int i;
                 for (int i = 0; i < *quantidadePedidos; i++) {
                     printf("ID: %d\n", (*pedidos)[i].id);
@@ -66,6 +68,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
         }
     } while (opcao != 0);
 }
+
 // Função para criar um novo pedido
 void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio) {
     *pedidos = realloc(*pedidos, (*quantidadePedidos + 1) * sizeof(Pedido));
@@ -88,7 +91,7 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
         printf("Erro ao alocar memória!\n");
         exit(1);
     }
-
+    // Adicionar itens ao pedido
     int i;
     for (i = 0; i < novoPedido->quantidadeItens; i++) {
         int idItem;
@@ -105,6 +108,7 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
     novoPedido->status = PENDENTE;
     (*quantidadePedidos)++;
 }
+
 // Função para alterar o status de um pedido
 void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, StatusPedido novoStatus) {
     int i;
@@ -117,6 +121,7 @@ void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, S
     }
     printf("Pedido não encontrado!\n");
 }
+
 // Função para finalizar um pedido
 void finalizarPedido(Pedido *pedidos, int quantidadePedidos, int idPedido) {
     int i;

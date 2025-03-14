@@ -4,6 +4,7 @@
 #include "cardapio.h"
 #include "pedidos.h"
 
+// Função principal
 int main() {
     setlocale(LC_ALL, "Portuguese");
 

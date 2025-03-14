@@ -7,6 +7,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+// Definição dos tipos Categoria
 typedef enum {
     ENTRADA,
     PRINCIPAL,
@@ -14,6 +15,7 @@ typedef enum {
     BEBIDA
 } Categoria;
 
+// Definição dos tipos StatusPedido
 typedef enum {
     PENDENTE,
     EM_PREPARO,
@@ -23,11 +25,13 @@ typedef enum {
 
 #endif // UTILS_H
 
+// Função para limpar o buffer do teclado
 void limparBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
+// Função para obter o nome da categoria
 const char* obterNomeCategoria(Categoria categoria) {
     switch (categoria) {
         case ENTRADA: return "Entrada";
@@ -38,6 +42,7 @@ const char* obterNomeCategoria(Categoria categoria) {
     }
 }
 
+// Função para obter o nome do status do pedido
 const char* obterNomeStatus(StatusPedido status) {
     switch (status) {
         case PENDENTE: return "Pendente";
