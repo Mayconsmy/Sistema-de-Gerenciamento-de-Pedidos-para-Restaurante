@@ -23,6 +23,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
         printf("3. Alterar status de pedido\n");
         printf("4. Finalizar pedido\n");
         printf("0. Voltar ao menu principal\n");
+        printf("==============================\n");
         printf("Escolha uma opção: ");
         
         if (scanf("%d", &opcao) != 1) {
@@ -53,7 +54,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
                 {
                     int idPedido;
                     int novoStatus;
-                    printf("ID do pedido: ");
+                    printf("\nID do pedido: ");
                     scanf("%d", &idPedido);
                     printf("Novo status (0: Pendente, 1: Em Preparo, 2: Pronto, 3: Entregue): ");
                     scanf("%d", &novoStatus);
@@ -63,7 +64,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
             case 4:
                 {
                     int idPedido;
-                    printf("ID do pedido: ");
+                    printf("\nID do pedido: ");
                     scanf("%d", &idPedido);
                     finalizarPedido(*pedidos, *quantidadePedidos, idPedido);
                 }
@@ -104,7 +105,7 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
     int i;
     for (i = 0; i < novoPedido->quantidadeItens; i++) {
         int idItem;
-        printf("ID do item %d: ", i + 1);
+        printf("\nID do item %d: ", i + 1);
         scanf("%d", &idItem);
         int j;
         for (j = 0; j < quantidadeCardapio; j++) {
