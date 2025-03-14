@@ -22,8 +22,8 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
 
         switch (opcao) {
             case 1:
-                // Exibir cardápio
-                for (int i = 0; i < *quantidade; i++) {
+                int i;
+                for (i = 0; i < *quantidade; i++) {
                     printf("ID: %d\n", (*cardapio)[i].id);
                     printf("Nome: %s\n", (*cardapio)[i].nome);
                     printf("Descrição: %s\n", (*cardapio)[i].descricao);
@@ -85,8 +85,9 @@ void removerItem(Item **cardapio, int *quantidade) {
     int id;
     printf("ID do item a ser removido: ");
     scanf("%d", &id);
-
-    for (int i = 0; i < *quantidade; i++) {
+    
+    int i;
+    for (i = 0; i < *quantidade; i++) {
         if ((*cardapio)[i].id == id) {
             for (int j = i; j < *quantidade - 1; j++) {
                 (*cardapio)[j] = (*cardapio)[j + 1];
@@ -105,7 +106,8 @@ void atualizarItem(Item *cardapio, int quantidade) {
     printf("ID do item a ser atualizado: ");
     scanf("%d", &id);
 
-    for (int i = 0; i < quantidade; i++) {
+    int i;
+    for (i = 0; i < quantidade; i++) {
         if (cardapio[i].id == id) {
             printf("Novo nome: ");
             limparBuffer();
