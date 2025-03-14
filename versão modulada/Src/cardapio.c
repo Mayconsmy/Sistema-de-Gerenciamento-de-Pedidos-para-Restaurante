@@ -100,7 +100,7 @@ void adicionarItem(Item **cardapio, int *quantidade) {
     novoItem->descricao[strcspn(novoItem->descricao, "\n")] = '\0';
     printf("Preço: ");
     scanf("%f", &novoItem->preco);
-    printf("Categoria (1: Entrada, 2: Principal, 3: Sobremesa, 4: Bebida): \n");
+    printf("Categoria (1: Entrada, 2: Principal, 3: Sobremesa, 4: Bebida): ");
     int categoria;
     scanf("%d", &categoria);
     novoItem->categoria = (Categoria)categoria;
