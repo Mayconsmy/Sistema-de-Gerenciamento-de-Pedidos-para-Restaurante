@@ -44,7 +44,8 @@ int main() {
     } while (opcao != 0);
 
     free(cardapio);
-    for (int i = 0; i < quantidadePedidos; i++) {
+    int i;
+    for (i = 0; i < quantidadePedidos; i++) {
         free(pedidos[i].itens);
     }
     free(pedidos);
