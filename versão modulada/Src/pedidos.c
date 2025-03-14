@@ -23,11 +23,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
         printf("3. Alterar status de pedido\n");
         printf("4. Finalizar pedido\n");
         printf("0. Voltar ao menu principal\n");
-<<<<<<< HEAD
         printf("================================\n");
-=======
-        printf("==============================\n");
->>>>>>> dd1596f1a9e0452c0d809273f57a9f42bcc7cc40
         printf("Escolha uma opção: ");
         
         if (scanf("%d", &opcao) != 1) {
@@ -58,7 +54,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
                 {
                     int idPedido;
                     int novoStatus;
-                    printf("\nID do pedido: ");
+                    printf("ID do pedido: ");
                     scanf("%d", &idPedido);
                     printf("Novo status (0: Pendente, 1: Em Preparo, 2: Pronto, 3: Entregue): ");
                     scanf("%d", &novoStatus);
@@ -68,9 +64,9 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
             case 4:
                 {
                     int idPedido;
-                    printf("\nID do pedido: ");
+                    printf("ID do pedido: ");
                     scanf("%d", &idPedido);
-                    finalizarPedido(*pedidos, *quantidadePedidos, idPedido);
+                    finalizarPedido(*pedidos, quantidadePedidos, idPedido);
                 }
                 break;
             case 0:
@@ -83,7 +79,6 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
         }
     } while (opcao != 0);
 }
-
 // Função para criar um novo pedido
 void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio) {
     *pedidos = realloc(*pedidos, (*quantidadePedidos + 1) * sizeof(Pedido));
@@ -92,15 +87,10 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
         exit(1);
     }
 
-    Pedido *novoPedido = &(*pedidos)[*quantidadePedidos];
-<<<<<<< HEAD
-    novoPedido->id = *quantidadePedidos > 0 ? (*pedidos)[*quantidadePedidos - 1].id + 1 : 1;
-    printf("Nome do cliente: ");
-=======
-    novoPedido->id = *quantidadePedidos + 1;
-    printf("\nNome do cliente: ");
->>>>>>> dd1596f1a9e0452c0d809273f57a9f42bcc7cc40
-    limparBuffer();
+Pedido *novoPedido = &(*pedidos)[*quantidadePedidos];
+novoPedido->id = *quantidadePedidos > 0 ? (*pedidos)[*quantidadePedidos - 1].id + 1 : 1;
+printf("Nome do cliente: ");
+limparBuffer();
     fgets(novoPedido->cliente, 50, stdin);
     novoPedido->cliente[strcspn(novoPedido->cliente, "\n")] = '\0';
 
@@ -166,22 +156,9 @@ void finalizarPedido(Pedido *pedidos, int *quantidadePedidos, int idPedido) {
     int i;
     for (i = 0; i < *quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
-            // Remover o pedido finalizado da lista
-            int j;
-            for (j = i; j < *quantidadePedidos - 1; j++) {
-                pedidos[j] = pedidos[j + 1];
-            }
-            (*quantidadePedidos)--;
-
-            // Realocar memória
-            Pedido *temp = realloc(pedidos, (*quantidadePedidos) * sizeof(Pedido));
-            if (temp == NULL && *quantidadePedidos > 0) {
-                printf("Erro ao realocar memória!\n");
-                exit(1);
-            }
-            pedidos = temp;
-
-            printf("Pedido %d finalizado e removido!\n", idPedido);
+            // Alterar o status do pedido para ENTREGUE
+            pedidos[i].status = ENTREGUE;
+            printf("Pedido %d finalizado!\n", idPedido);
             return;
         }
     }
