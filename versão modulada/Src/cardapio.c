@@ -40,6 +40,10 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
 
         switch (opcao) {
             case 1: {
+                if (*quantidade == 0) {
+                    printf("O cardápio está vazio.\n");
+                    break;
+                }
                 int categoriaOpcao;
                 printf("\nEscolha a categoria para exibir:\n");
                 printf("1. Entrada\n");

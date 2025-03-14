@@ -99,7 +99,7 @@ void adicionarItem(Item **cardapio, int *quantidade) {
     }
     limparBuffer();
     
-    printf("Categoria (0-Entrada, 1-Prato Principal, 2-Sobremesa, 3-Bebida): ");
+    printf("Categoria (1-Entrada, 2-Prato Principal, 3-Sobremesa, 4-Bebida): ");
     int cat;
     if (scanf("%d", &cat) != 1 || cat < 0 || cat > 3) {
         printf("\nOpçao Invalida!\n");
@@ -177,7 +177,7 @@ void atualizarItem(Item *cardapio, int quantidade) {
     }
     limparBuffer(); 
 
-    printf("Nova categoria (0-Entrada, 1-Prato Principal, 2-Sobremesa, 3-Bebida): ");
+    printf("Nova categoria (1-Entrada, 2-Prato Principal, 3-Sobremesa, 4-Bebida): ");
     int cat;
     if (scanf("%d", &cat) != 1 || cat < 0 || cat > 3) {
         printf("Categoria inválida!\n");
@@ -224,6 +224,10 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
 
         switch (opcao) {
             case 1: {
+                if (*quantidade == 0) {
+                    printf("O cardápio está vazio.\n");
+                    break;
+                }
                 int categoriaOpcao;
                 printf("\nEscolha a categoria para exibir:\n");
                 printf("1. Entrada\n");
@@ -267,6 +271,11 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
 
 // Função para criar um novo pedido
 void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio) {
+    if (quantidadeCardapio == 0) {
+        printf("Não há itens no cardápio para criar um pedido.\n");
+        return;
+    }
+
     *pedidos = realloc(*pedidos, (*quantidadePedidos + 1) * sizeof(Pedido));
     if (*pedidos == NULL) {
         printf("Erro ao alocar memória!\n");
@@ -300,13 +309,26 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
         }
     }
 
+    printf("Pedido criado com sucesso!\n");
+    
     novoPedido->status = PENDENTE;
     (*quantidadePedidos)++;
 }
 
 // Função para alterar o status de um pedido
 void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, StatusPedido novoStatus) {
-    for (int i = 0; i < quantidadePedidos; i++) {
+    if (quantidadePedidos == 0) {
+        printf("Não há pedidos para atualizar.\n");
+        return;
+    }
+
+    printf("\nID do pedido: ");
+    scanf("%d", &idPedido);
+    printf("Novo status (0: Pendente, 1: Em Preparo, 2: Pronto, 3: Entregue): ");
+    scanf("%d", &novoStatus);
+
+    int i;
+    for (i = 0; i < quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
             pedidos[i].status = novoStatus;
             printf("Status do pedido %d atualizado para %s\n", idPedido, obterNomeStatus(novoStatus));
@@ -315,10 +337,21 @@ void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, S
     }
     printf("Pedido não encontrado!\n");
 }
+
 // Função para finalizar um pedido
-void finalizarPedido(Pedido *pedidos, int quantidadePedidos, int idPedido) {
-    for (int i = 0; i < quantidadePedidos; i++) {
+void finalizarPedido(Pedido *pedidos, int *quantidadePedidos, int idPedido) {
+    if (*quantidadePedidos == 0) {
+        printf("Não há pedidos para finalizar.\n");
+        return;
+    }
+
+    printf("\nID do pedido: ");
+    scanf("%d", &idPedido);
+
+    int i;
+    for (i = 0; i < *quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
+            // Alterar o status do pedido para ENTREGUE
             pedidos[i].status = ENTREGUE;
             printf("Pedido %d finalizado!\n", idPedido);
             return;
@@ -356,14 +389,17 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
 
         switch (opcao) {
             case 1:
-                // Exibir pedidos
-                for (int i = 0; i < *quantidadePedidos; i++) {
-                    printf("\nID: %d\n", (*pedidos)[i].id);
-                    printf("Cliente: %s\n", (*pedidos)[i].cliente);
-                    printf("Quantidade de Itens: %d\n", (*pedidos)[i].quantidadeItens);
-                    printf("Status: %s\n", obterNomeStatus((*pedidos)[i].status));
-                    printf("Valor Total: %.2f\n", calcularValorPedido(&(*pedidos)[i]));
-                    printf("\n");
+                if (*quantidadePedidos == 0) {
+                    printf("Não há pedidos para exibir.\n");
+                } else {
+                    for (int i = 0; i < *quantidadePedidos; i++) {
+                        printf("\nID: %d\n", (*pedidos)[i].id);
+                        printf("Cliente: %s\n", (*pedidos)[i].cliente);
+                        printf("Quantidade de Itens: %d\n", (*pedidos)[i].quantidadeItens);
+                        printf("Status: %s\n", obterNomeStatus((*pedidos)[i].status));
+                        printf("Valor Total: %.2f\n", calcularValorPedido(&(*pedidos)[i]));
+                        printf("\n");
+                    }
                 }
                 break;
             case 2:

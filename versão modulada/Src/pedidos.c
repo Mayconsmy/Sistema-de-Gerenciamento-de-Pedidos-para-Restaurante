@@ -34,10 +34,10 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
 
         switch (opcao) {
             case 1:
-                // Exibir pedidos
-                {
-                    int i;
-                    for (i = 0; i < *quantidadePedidos; i++) {
+                if (*quantidadePedidos == 0) {
+                    printf("Não há pedidos para exibir.\n");
+                } else {
+                    for (int i = 0; i < *quantidadePedidos; i++) {
                         printf("\nID: %d\n", (*pedidos)[i].id);
                         printf("Cliente: %s\n", (*pedidos)[i].cliente);
                         printf("Quantidade de Itens: %d\n", (*pedidos)[i].quantidadeItens);
@@ -81,53 +81,37 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
 }
 // Função para criar um novo pedido
 void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio) {
+    if (quantidadeCardapio == 0) {
+        printf("Não há itens no cardápio para criar um pedido.\n");
+        return;
+    }
+
     *pedidos = realloc(*pedidos, (*quantidadePedidos + 1) * sizeof(Pedido));
     if (*pedidos == NULL) {
         printf("Erro ao alocar memória!\n");
         exit(1);
     }
 
-Pedido *novoPedido = &(*pedidos)[*quantidadePedidos];
-novoPedido->id = *quantidadePedidos > 0 ? (*pedidos)[*quantidadePedidos - 1].id + 1 : 1;
-printf("\nNome do cliente: ");
-limparBuffer();
+    Pedido *novoPedido = &(*pedidos)[*quantidadePedidos];
+    novoPedido->id = *quantidadePedidos + 1;
+    printf("\nNome do cliente: ");
+    limparBuffer();
     fgets(novoPedido->cliente, 50, stdin);
     novoPedido->cliente[strcspn(novoPedido->cliente, "\n")] = '\0';
 
-    // Validação da quantidade de itens
-    int quantidadeItens;
-    while (1) {
-        printf("Quantidade de itens: ");
-        if (scanf("%d", &quantidadeItens) != 1 || quantidadeItens < 0) {
-            printf("Quantidade inválida! Insira um valor numérico positivo.\n");
-            limparBuffer();
-        } else {
-            novoPedido->quantidadeItens = quantidadeItens;
-            break;
-        }
-    }
-
+    printf("Quantidade de itens: ");
+    scanf("%d", &novoPedido->quantidadeItens);
     novoPedido->itens = malloc(novoPedido->quantidadeItens * sizeof(Item));
     if (novoPedido->itens == NULL) {
         printf("Erro ao alocar memória!\n");
         exit(1);
     }
 
-    int i;
-    for (i = 0; i < novoPedido->quantidadeItens; i++) {
+    for (int i = 0; i < novoPedido->quantidadeItens; i++) {
         int idItem;
-        while (1) {
-            printf("\nID do item %d: ", i + 1);
-            if (scanf("%d", &idItem) != 1 || idItem < 0) {
-                printf("ID inválido! Insira um valor numérico positivo.\n");
-                limparBuffer();
-            } else {
-                break;
-            }
-        }
-
-        int j;
-        for (j = 0; j < quantidadeCardapio; j++) {
+        printf("ID do item %d: ", i + 1);
+        scanf("%d", &idItem);
+        for (int j = 0; j < quantidadeCardapio; j++) {
             if (cardapio[j].id == idItem) {
                 novoPedido->itens[i] = cardapio[j];
                 break;
@@ -135,11 +119,24 @@ limparBuffer();
         }
     }
 
+    printf("Pedido criado com sucesso!\n");
+    
     novoPedido->status = PENDENTE;
     (*quantidadePedidos)++;
 }
+
 // Função para alterar o status de um pedido
 void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, StatusPedido novoStatus) {
+    if (quantidadePedidos == 0) {
+        printf("Não há pedidos para atualizar.\n");
+        return;
+    }
+
+    printf("\nID do pedido: ");
+    scanf("%d", &idPedido);
+    printf("Novo status (0: Pendente, 1: Em Preparo, 2: Pronto, 3: Entregue): ");
+    scanf("%d", &novoStatus);
+
     int i;
     for (i = 0; i < quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
@@ -153,6 +150,14 @@ void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, S
 
 // Função para finalizar um pedido
 void finalizarPedido(Pedido *pedidos, int *quantidadePedidos, int idPedido) {
+    if (*quantidadePedidos == 0) {
+        printf("Não há pedidos para finalizar.\n");
+        return;
+    }
+
+    printf("\nID do pedido: ");
+    scanf("%d", &idPedido);
+
     int i;
     for (i = 0; i < *quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
