@@ -22,7 +22,7 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
         }
 
         switch (opcao) {
-            case 1:
+            case 1: {
                 // Exibir cardápio
                 int i;
                 for (i = 0; i < *quantidade; i++) {
@@ -34,6 +34,7 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
                     printf("\n");
                 }
                 break;
+            }
             case 2:
                 // Adicionar item ao cardápio
                 adicionarItem(cardapio, quantidade);
