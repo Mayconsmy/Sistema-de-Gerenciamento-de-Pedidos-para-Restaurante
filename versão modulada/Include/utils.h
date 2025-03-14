@@ -17,7 +17,7 @@ typedef enum {
     ENTREGUE
 } StatusPedido;
 
-// Funções utilitárias
+// Funções utilitárias para o sistema
 void limparBuffer();
 const char* obterNomeCategoria(Categoria categoria);
 const char* obterNomeStatus(StatusPedido status);

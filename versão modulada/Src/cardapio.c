@@ -3,6 +3,7 @@
 #include <string.h>
 #include "cardapio.h"
 
+// Função para exibir o cardápio por categoria
 void exibirCardapioPorCategoria(Item *cardapio, int quantidade, Categoria categoria) {
     printf("\n=== %s ===\n", obterNomeCategoria(categoria));
     for (int i = 0; i < quantidade; i++) {
@@ -16,6 +17,7 @@ void exibirCardapioPorCategoria(Item *cardapio, int quantidade, Categoria catego
     }
 }
 
+// Função para gerenciar o cardápio
 void gerenciarCardapio(Item **cardapio, int *quantidade) {
     int opcao;
     do {
@@ -70,6 +72,7 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
     } while (opcao != 0);
 }
 
+// Função para adicionar um item ao cardápio
 void adicionarItem(Item **cardapio, int *quantidade) {
     *cardapio = realloc(*cardapio, (*quantidade + 1) * sizeof(Item));
     if (*cardapio == NULL) {
@@ -96,6 +99,7 @@ void adicionarItem(Item **cardapio, int *quantidade) {
     (*quantidade)++;
 }
 
+// Função para remover um item do cardápio
 void removerItem(Item **cardapio, int *quantidade) {
     int id;
     printf("ID do item a ser removido: ");
@@ -115,6 +119,7 @@ void removerItem(Item **cardapio, int *quantidade) {
     printf("Item não encontrado!\n");
 }
 
+// Função para atualizar um item do cardápio
 void atualizarItem(Item *cardapio, int quantidade) {
     int id;
     printf("ID do item a ser atualizado: ");

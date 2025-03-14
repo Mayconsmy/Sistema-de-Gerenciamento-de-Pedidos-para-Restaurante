@@ -3,6 +3,7 @@
 #include <string.h>
 #include "pedidos.h"
 
+// Função para calcular o valor total de um pedido
 float calcularValorPedido(Pedido *pedido) {
     float valorTotal = 0.0;
     for (int i = 0; i < pedido->quantidadeItens; i++) {
@@ -11,6 +12,7 @@ float calcularValorPedido(Pedido *pedido) {
     return valorTotal;
 }
 
+// Função para obter o nome de um status de pedido
 void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio) {
     int opcao;
     do {
@@ -73,7 +75,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
     } while (opcao != 0);
 }
 
-
+// Função para criar um novo pedido
 void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio) {
     *pedidos = realloc(*pedidos, (*quantidadePedidos + 1) * sizeof(Pedido));
     if (*pedidos == NULL) {
@@ -112,6 +114,7 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
     (*quantidadePedidos)++;
 }
 
+// Função para alterar o status de um pedido
 void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, StatusPedido novoStatus) {
     for (int i = 0; i < quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
@@ -123,6 +126,7 @@ void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, S
     printf("Pedido não encontrado!\n");
 }
 
+// Função para finalizar um pedido
 void finalizarPedido(Pedido *pedidos, int quantidadePedidos, int idPedido) {
     for (int i = 0; i < quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
