@@ -4,18 +4,16 @@
 #include "cardapio.h"
 #include "pedidos.h"
 
-// Função principal
 int main() {
     setlocale(LC_ALL, "Portuguese");
 
     Item *cardapio = NULL;
     int quantidadeCardapio = 0;
-    
     Pedido *pedidos = NULL;
     int quantidadePedidos = 0;
     int opcao;
 
-    printf("\nSeja bem-vindo ao Sistema de Gerenciamento de Pedidos do Restaurante!\n");
+    printf("\nSeja bem-vindo ao Sistema de Gerenciamento de Pedidos do Restaurante Comidas do Sertão!\n");
     printf("Fique à vontade para proporcionar a melhor experiência para os nossos clientes <3.\n");
 
     do {
@@ -46,7 +44,6 @@ int main() {
     } while (opcao != 0);
 
     free(cardapio);
-    
     for (int i = 0; i < quantidadePedidos; i++) {
         free(pedidos[i].itens);
     }

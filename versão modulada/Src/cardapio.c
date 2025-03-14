@@ -3,7 +3,19 @@
 #include <string.h>
 #include "cardapio.h"
 
-// Função para gerenciar o cardápio
+void exibirCardapioPorCategoria(Item *cardapio, int quantidade, Categoria categoria) {
+    printf("\n=== %s ===\n", obterNomeCategoria(categoria));
+    for (int i = 0; i < quantidade; i++) {
+        if (cardapio[i].categoria == categoria) {
+            printf("ID: %d\n", cardapio[i].id);
+            printf("Nome: %s\n", cardapio[i].nome);
+            printf("Descrição: %s\n", cardapio[i].descricao);
+            printf("Preço: %.2f\n", cardapio[i].preco);
+            printf("\n");
+        }
+    }
+}
+
 void gerenciarCardapio(Item **cardapio, int *quantidade) {
     int opcao;
     do {
@@ -23,28 +35,28 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
 
         switch (opcao) {
             case 1: {
-                // Exibir cardápio
-                int i;
-                for (i = 0; i < *quantidade; i++) {
-                    printf("ID: %d\n", (*cardapio)[i].id);
-                    printf("Nome: %s\n", (*cardapio)[i].nome);
-                    printf("Descrição: %s\n", (*cardapio)[i].descricao);
-                    printf("Preço: %.2f\n", (*cardapio)[i].preco);
-                    printf("Categoria: %s\n", obterNomeCategoria((*cardapio)[i].categoria));
-                    printf("\n");
+                int categoriaOpcao;
+                printf("\nEscolha a categoria para exibir:\n");
+                printf("0. Entrada\n");
+                printf("1. Principal\n");
+                printf("2. Sobremesa\n");
+                printf("3. Bebida\n");
+                printf("Escolha uma opção: ");
+                if (scanf("%d", &categoriaOpcao) != 1 || categoriaOpcao < 0 || categoriaOpcao > 3) {
+                    printf("Opção inválida!\n");
+                    limparBuffer();
+                    continue;
                 }
+                exibirCardapioPorCategoria(*cardapio, *quantidade, (Categoria)categoriaOpcao);
                 break;
             }
             case 2:
-                // Adicionar item ao cardápio
                 adicionarItem(cardapio, quantidade);
                 break;
             case 3:
-                // Remover item do cardápio
                 removerItem(cardapio, quantidade);
                 break;
             case 4:
-                // Atualizar item do cardápio
                 atualizarItem(*cardapio, *quantidade);
                 break;
             case 0:
@@ -58,7 +70,6 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
     } while (opcao != 0);
 }
 
-// Função para adicionar um item ao cardápio
 void adicionarItem(Item **cardapio, int *quantidade) {
     *cardapio = realloc(*cardapio, (*quantidade + 1) * sizeof(Item));
     if (*cardapio == NULL) {
@@ -85,14 +96,12 @@ void adicionarItem(Item **cardapio, int *quantidade) {
     (*quantidade)++;
 }
 
-// Função para remover um item do cardápio com base no id
 void removerItem(Item **cardapio, int *quantidade) {
     int id;
     printf("ID do item a ser removido: ");
     scanf("%d", &id);
-    
-    int i;
-    for (i = 0; i < *quantidade; i++) {
+
+    for (int i = 0; i < *quantidade; i++) {
         if ((*cardapio)[i].id == id) {
             for (int j = i; j < *quantidade - 1; j++) {
                 (*cardapio)[j] = (*cardapio)[j + 1];
@@ -106,14 +115,12 @@ void removerItem(Item **cardapio, int *quantidade) {
     printf("Item não encontrado!\n");
 }
 
-// Função para atualizar um item do cardápio com base no id
 void atualizarItem(Item *cardapio, int quantidade) {
     int id;
     printf("ID do item a ser atualizado: ");
     scanf("%d", &id);
 
-    int i;
-    for (i = 0; i < quantidade; i++) {
+    for (int i = 0; i < quantidade; i++) {
         if (cardapio[i].id == id) {
             printf("Novo nome: ");
             limparBuffer();

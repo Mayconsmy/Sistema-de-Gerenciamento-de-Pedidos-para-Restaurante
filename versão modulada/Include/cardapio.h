@@ -1,9 +1,13 @@
 #ifndef CARDAPIO_H
 #define CARDAPIO_H
 
-#include "utils.h"
+typedef enum {
+    ENTRADA,
+    PRINCIPAL,
+    SOBREMESA,
+    BEBIDA
+} Categoria;
 
-// Enumerador para as categorias dos itens
 typedef struct {
     int id;
     char nome[50];
@@ -12,10 +16,12 @@ typedef struct {
     Categoria categoria;
 } Item;
 
-// Funções do cardápio
 void gerenciarCardapio(Item **cardapio, int *quantidade);
+void exibirCardapioPorCategoria(Item *cardapio, int quantidade, Categoria categoria);
 void adicionarItem(Item **cardapio, int *quantidade);
 void removerItem(Item **cardapio, int *quantidade);
 void atualizarItem(Item *cardapio, int quantidade);
+const char* obterNomeCategoria(Categoria categoria);
+void limparBuffer();
 
 #endif // CARDAPIO_H
