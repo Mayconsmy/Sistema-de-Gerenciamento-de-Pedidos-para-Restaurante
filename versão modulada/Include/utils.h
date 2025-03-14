@@ -1,6 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+// Enumeradores para as categorias dos itens
 typedef enum {
     ENTRADA,
     PRINCIPAL,
@@ -8,6 +9,7 @@ typedef enum {
     BEBIDA
 } Categoria;
 
+// Enumerador para os status dos pedidos
 typedef enum {
     PENDENTE,
     EM_PREPARO,
@@ -15,6 +17,7 @@ typedef enum {
     ENTREGUE
 } StatusPedido;
 
+// Funções utilitárias
 void limparBuffer();
 const char* obterNomeCategoria(Categoria categoria);
 const char* obterNomeStatus(StatusPedido status);

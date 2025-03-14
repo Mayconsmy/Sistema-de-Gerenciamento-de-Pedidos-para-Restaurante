@@ -3,6 +3,7 @@
 
 #include "utils.h"
 
+// Enumerador para as categorias dos itens
 typedef struct {
     int id;
     char nome[50];
@@ -11,6 +12,7 @@ typedef struct {
     Categoria categoria;
 } Item;
 
+// Funções do cardápio
 void gerenciarCardapio(Item **cardapio, int *quantidade);
 void adicionarItem(Item **cardapio, int *quantidade);
 void removerItem(Item **cardapio, int *quantidade);
