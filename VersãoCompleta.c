@@ -150,6 +150,7 @@ void atualizarItem(Item *cardapio, int quantidade) {
         printf("O cardápio está vazio!\n");
         return;
     }
+    
     int id;
     printf("\nDigite o ID do item a ser atualizado: ");
     if (scanf("%d", &id) != 1 || id < 1 || id > quantidade) {

@@ -114,6 +114,11 @@ void adicionarItem(Item **cardapio, int *quantidade) {
 
 // Função para remover um item do cardápio
 void removerItem(Item **cardapio, int *quantidade) {
+    if (*quantidade == 0) {
+        printf("O cardápio está vazio!\n");
+        return;
+    }
+
     int id;
     printf("\nID do item a ser removido: ");
     scanf("%d", &id);
@@ -135,6 +140,11 @@ void removerItem(Item **cardapio, int *quantidade) {
 
 // Função para atualizar um item do cardápio
 void atualizarItem(Item *cardapio, int quantidade) {
+    if (quantidade == 0) {
+        printf("O cardápio está vazio!\n");
+        return;
+    }
+
     int id;
     printf("\nID do item a ser atualizado: ");
     scanf("%d", &id);
