@@ -25,7 +25,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
 float calcularValorPedido(Pedido *pedido);
 void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int quantidadeCardapio);
 void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, StatusPedido novoStatus);
-void finalizarPedido(Pedido *pedidos, int quantidadePedidos, int idPedido);
+void finalizarPedido(Pedido *pedidos, int *quantidadePedidos, int idPedido);
 const char* obterNomeStatus(StatusPedido status);
 void limparBuffer();
 

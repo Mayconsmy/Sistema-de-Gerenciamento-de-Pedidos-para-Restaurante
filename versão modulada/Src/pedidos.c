@@ -23,6 +23,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
         printf("3. Alterar status de pedido\n");
         printf("4. Finalizar pedido\n");
         printf("0. Voltar ao menu principal\n");
+        printf("================================\n");
         printf("Escolha uma opção: ");
         
         if (scanf("%d", &opcao) != 1) {
@@ -88,24 +89,44 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
     }
 
     Pedido *novoPedido = &(*pedidos)[*quantidadePedidos];
-    novoPedido->id = *quantidadePedidos + 1;
+    novoPedido->id = *quantidadePedidos > 0 ? (*pedidos)[*quantidadePedidos - 1].id + 1 : 1;
     printf("Nome do cliente: ");
     limparBuffer();
     fgets(novoPedido->cliente, 50, stdin);
     novoPedido->cliente[strcspn(novoPedido->cliente, "\n")] = '\0';
 
-    printf("Quantidade de itens: ");
-    scanf("%d", &novoPedido->quantidadeItens);
+    // Validação da quantidade de itens
+    int quantidadeItens;
+    while (1) {
+        printf("Quantidade de itens: ");
+        if (scanf("%d", &quantidadeItens) != 1 || quantidadeItens < 0) {
+            printf("Quantidade inválida! Insira um valor numérico positivo.\n");
+            limparBuffer();
+        } else {
+            novoPedido->quantidadeItens = quantidadeItens;
+            break;
+        }
+    }
+
     novoPedido->itens = malloc(novoPedido->quantidadeItens * sizeof(Item));
     if (novoPedido->itens == NULL) {
         printf("Erro ao alocar memória!\n");
         exit(1);
     }
+
     int i;
     for (i = 0; i < novoPedido->quantidadeItens; i++) {
         int idItem;
-        printf("ID do item %d: ", i + 1);
-        scanf("%d", &idItem);
+        while (1) {
+            printf("ID do item %d: ", i + 1);
+            if (scanf("%d", &idItem) != 1 || idItem < 0) {
+                printf("ID inválido! Insira um valor numérico positivo.\n");
+                limparBuffer();
+            } else {
+                break;
+            }
+        }
+
         int j;
         for (j = 0; j < quantidadeCardapio; j++) {
             if (cardapio[j].id == idItem) {
@@ -118,7 +139,6 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
     novoPedido->status = PENDENTE;
     (*quantidadePedidos)++;
 }
-
 // Função para alterar o status de um pedido
 void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, StatusPedido novoStatus) {
     int i;
@@ -133,12 +153,26 @@ void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, S
 }
 
 // Função para finalizar um pedido
-void finalizarPedido(Pedido *pedidos, int quantidadePedidos, int idPedido) {
+void finalizarPedido(Pedido *pedidos, int *quantidadePedidos, int idPedido) {
     int i;
-    for (i = 0; i < quantidadePedidos; i++) {
+    for (i = 0; i < *quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
-            pedidos[i].status = ENTREGUE;
-            printf("Pedido %d finalizado!\n", idPedido);
+            // Remover o pedido finalizado da lista
+            int j;
+            for (j = i; j < *quantidadePedidos - 1; j++) {
+                pedidos[j] = pedidos[j + 1];
+            }
+            (*quantidadePedidos)--;
+
+            // Realocar memória
+            Pedido *temp = realloc(pedidos, (*quantidadePedidos) * sizeof(Pedido));
+            if (temp == NULL && *quantidadePedidos > 0) {
+                printf("Erro ao realocar memória!\n");
+                exit(1);
+            }
+            pedidos = temp;
+
+            printf("Pedido %d finalizado e removido!\n", idPedido);
             return;
         }
     }
