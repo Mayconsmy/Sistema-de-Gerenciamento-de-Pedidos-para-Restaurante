@@ -10,6 +10,7 @@ int main() {
 
     Item *cardapio = NULL;
     int quantidadeCardapio = 0;
+    
     Pedido *pedidos = NULL;
     int quantidadePedidos = 0;
     int opcao;
