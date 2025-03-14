@@ -54,7 +54,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
                 {
                     int idPedido;
                     int novoStatus;
-                    printf("ID do pedido: ");
+                    printf("\nID do pedido: ");
                     scanf("%d", &idPedido);
                     printf("Novo status (0: Pendente, 1: Em Preparo, 2: Pronto, 3: Entregue): ");
                     scanf("%d", &novoStatus);
@@ -64,7 +64,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
             case 4:
                 {
                     int idPedido;
-                    printf("ID do pedido: ");
+                    printf("\nID do pedido: ");
                     scanf("%d", &idPedido);
                     finalizarPedido(*pedidos, quantidadePedidos, idPedido);
                 }
@@ -89,7 +89,7 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
 
 Pedido *novoPedido = &(*pedidos)[*quantidadePedidos];
 novoPedido->id = *quantidadePedidos > 0 ? (*pedidos)[*quantidadePedidos - 1].id + 1 : 1;
-printf("Nome do cliente: ");
+printf("\nNome do cliente: ");
 limparBuffer();
     fgets(novoPedido->cliente, 50, stdin);
     novoPedido->cliente[strcspn(novoPedido->cliente, "\n")] = '\0';
@@ -117,7 +117,7 @@ limparBuffer();
     for (i = 0; i < novoPedido->quantidadeItens; i++) {
         int idItem;
         while (1) {
-            printf("ID do item %d: ", i + 1);
+            printf("\nID do item %d: ", i + 1);
             if (scanf("%d", &idItem) != 1 || idItem < 0) {
                 printf("ID inválido! Insira um valor numérico positivo.\n");
                 limparBuffer();

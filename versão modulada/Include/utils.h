@@ -22,4 +22,4 @@ void limparBuffer();
 const char* obterNomeCategoria(Categoria categoria);
 const char* obterNomeStatus(StatusPedido status);
 
-#endif // UTILS_H
+#endif

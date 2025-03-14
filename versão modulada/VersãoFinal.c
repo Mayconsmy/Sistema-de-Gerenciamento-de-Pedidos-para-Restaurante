@@ -42,11 +42,11 @@ void limparBuffer() {
 
 const char* obterNomeCategoria(Categoria categoria) {
     switch (categoria) {
-        case ENTRADA: return "Entrada";
-        case PRINCIPAL: return "Prato Principal";
-        case SOBREMESA: return "Sobremesa";
-        case BEBIDA: return "Bebida";
-        default: return "Desconhecido";
+        case 1: return "Entrada";
+        case 2: return "Principal";
+        case 3: return "Sobremesa";
+        case 4: return "Bebida";
+        default: return "Desconhecida";
     }
 }
 
@@ -195,7 +195,7 @@ void exibirCardapioPorCategoria(Item *cardapio, int quantidade, Categoria catego
     printf("\n=== %s ===\n", obterNomeCategoria(categoria));
     for (int i = 0; i < quantidade; i++) {
         if (cardapio[i].categoria == categoria) {
-            printf("\nID: %d\n", cardapio[i].id);
+            printf("ID: %d\n", cardapio[i].id);
             printf("Nome: %s\n", cardapio[i].nome);
             printf("Descrição: %s\n", cardapio[i].descricao);
             printf("Preço: %.2f\n", cardapio[i].preco);
@@ -226,16 +226,21 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
             case 1: {
                 int categoriaOpcao;
                 printf("\nEscolha a categoria para exibir:\n");
-                printf("0. Entrada\n");
-                printf("1. Principal\n");
-                printf("2. Sobremesa\n");
-                printf("3. Bebida\n");
-                printf("==============================\n");
+                printf("1. Entrada\n");
+                printf("2. Principal\n");
+                printf("3. Sobremesa\n");
+                printf("4. Bebida\n");
+                printf("0. Voltar ao menu\n");
+                printf("================================\n");
                 printf("Escolha uma opção: ");
-                if (scanf("%d", &categoriaOpcao) != 1 || categoriaOpcao < 0 || categoriaOpcao > 3) {
+                if (scanf("%d", &categoriaOpcao) != 1 || categoriaOpcao < 0 || categoriaOpcao > 4) {
                     printf("Opção inválida!\n");
                     limparBuffer();
                     continue;
+                }
+                if (categoriaOpcao == 0) {
+                    printf("Voltando ao menu principal...\n");
+                    break;
                 }
                 exibirCardapioPorCategoria(*cardapio, *quantidade, (Categoria)categoriaOpcao);
                 break;
@@ -285,7 +290,7 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
 
     for (int i = 0; i < novoPedido->quantidadeItens; i++) {
         int idItem;
-        printf("\nID do item %d: ", i + 1);
+        printf("ID do item %d: ", i + 1);
         scanf("%d", &idItem);
         for (int j = 0; j < quantidadeCardapio; j++) {
             if (cardapio[j].id == idItem) {

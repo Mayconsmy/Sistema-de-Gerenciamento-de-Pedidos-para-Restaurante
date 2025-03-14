@@ -34,11 +34,11 @@ void limparBuffer() {
 // Função para obter o nome da categoria
 const char* obterNomeCategoria(Categoria categoria) {
     switch (categoria) {
-        case ENTRADA: return "Entrada";
-        case PRINCIPAL: return "Prato Principal";
-        case SOBREMESA: return "Sobremesa";
-        case BEBIDA: return "Bebida";
-        default: return "Desconhecido";
+        case 1: return "Entrada";
+        case 2: return "Principal";
+        case 3: return "Sobremesa";
+        case 4: return "Bebida";
+        default: return "Desconhecida";
     }
 }
 
