@@ -23,7 +23,11 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
         printf("3. Alterar status de pedido\n");
         printf("4. Finalizar pedido\n");
         printf("0. Voltar ao menu principal\n");
+<<<<<<< HEAD
         printf("================================\n");
+=======
+        printf("==============================\n");
+>>>>>>> dd1596f1a9e0452c0d809273f57a9f42bcc7cc40
         printf("Escolha uma opção: ");
         
         if (scanf("%d", &opcao) != 1) {
@@ -54,7 +58,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
                 {
                     int idPedido;
                     int novoStatus;
-                    printf("ID do pedido: ");
+                    printf("\nID do pedido: ");
                     scanf("%d", &idPedido);
                     printf("Novo status (0: Pendente, 1: Em Preparo, 2: Pronto, 3: Entregue): ");
                     scanf("%d", &novoStatus);
@@ -64,7 +68,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
             case 4:
                 {
                     int idPedido;
-                    printf("ID do pedido: ");
+                    printf("\nID do pedido: ");
                     scanf("%d", &idPedido);
                     finalizarPedido(*pedidos, *quantidadePedidos, idPedido);
                 }
@@ -89,8 +93,13 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
     }
 
     Pedido *novoPedido = &(*pedidos)[*quantidadePedidos];
+<<<<<<< HEAD
     novoPedido->id = *quantidadePedidos > 0 ? (*pedidos)[*quantidadePedidos - 1].id + 1 : 1;
     printf("Nome do cliente: ");
+=======
+    novoPedido->id = *quantidadePedidos + 1;
+    printf("\nNome do cliente: ");
+>>>>>>> dd1596f1a9e0452c0d809273f57a9f42bcc7cc40
     limparBuffer();
     fgets(novoPedido->cliente, 50, stdin);
     novoPedido->cliente[strcspn(novoPedido->cliente, "\n")] = '\0';

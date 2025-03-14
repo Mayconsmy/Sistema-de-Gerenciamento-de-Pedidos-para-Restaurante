@@ -74,7 +74,7 @@ void adicionarItem(Item **cardapio, int *quantidade) {
 
     int nomeValido = 0;
     while (!nomeValido) {
-        printf("Nome do item: ");
+        printf("\nNome do item: ");
         scanf(" %[^\n]", novoItem->nome);
         limparBuffer();
 
@@ -122,7 +122,7 @@ void removerItem(Item **cardapio, int *quantidade) {
 
     int id;
     int i;
-    printf("Digite o ID do item a ser removido: ");
+    printf("\nDigite o ID do item a ser removido: ");
     if (scanf("%d", &id) != 1 || id < 1 || id > *quantidade) {
         printf("ID inválido!\n");
         limparBuffer(); 
@@ -151,7 +151,7 @@ void atualizarItem(Item *cardapio, int quantidade) {
         return;
     }
     int id;
-    printf("Digite o ID do item a ser atualizado: ");
+    printf("\nDigite o ID do item a ser atualizado: ");
     if (scanf("%d", &id) != 1 || id < 1 || id > quantidade) {
         printf("ID inválido!\n");
         limparBuffer(); 
@@ -213,6 +213,7 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
         printf("3. Remover item do cardápio\n");
         printf("4. Atualizar item do cardápio\n");
         printf("0. Voltar ao menu principal\n");
+        printf("==============================\n");
         printf("Escolha uma opção: ");
         
         if (scanf("%d", &opcao) != 1) {
@@ -229,6 +230,7 @@ void gerenciarCardapio(Item **cardapio, int *quantidade) {
                 printf("1. Principal\n");
                 printf("2. Sobremesa\n");
                 printf("3. Bebida\n");
+                printf("==============================\n");
                 printf("Escolha uma opção: ");
                 if (scanf("%d", &categoriaOpcao) != 1 || categoriaOpcao < 0 || categoriaOpcao > 3) {
                     printf("Opção inválida!\n");
@@ -338,6 +340,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
         printf("3. Alterar status de pedido\n");
         printf("4. Finalizar pedido\n");
         printf("0. Voltar ao menu principal\n");
+        printf("==============================\n");
         printf("Escolha uma opção: ");
         
         if (scanf("%d", &opcao) != 1) {
@@ -365,7 +368,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
                 {
                     int idPedido;
                     int novoStatus;
-                    printf("ID do pedido: ");
+                    printf("\nID do pedido: ");
                     scanf("%d", &idPedido);
                     printf("Novo status (0: Pendente, 1: Em Preparo, 2: Pronto, 3: Entregue): ");
                     scanf("%d", &novoStatus);
@@ -375,7 +378,7 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
             case 4:
                 {
                     int idPedido;
-                    printf("ID do pedido: ");
+                    printf("\nID do pedido: ");
                     scanf("%d", &idPedido);
                     finalizarPedido(*pedidos, *quantidadePedidos, idPedido);
                 }
@@ -401,7 +404,7 @@ int main() {
     int quantidadePedidos = 0;
     int opcao;
 
-    printf("\nSeja bem-vindo ao Sistema de Gerenciamento de Pedidos do Restaurante Comidas do Sertão!\n");
+    printf("\nSeja bem-vindo ao Sistema de Gerenciamento de Pedidos do Restaurante!\n");
     printf("Fique à vontade para proporcionar a melhor experiência para os nossos clientes <3.\n");
 
     do {
