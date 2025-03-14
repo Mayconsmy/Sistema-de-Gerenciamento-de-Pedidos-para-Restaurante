@@ -90,7 +90,7 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
 
     Pedido *novoPedido = &(*pedidos)[*quantidadePedidos];
     novoPedido->id = *quantidadePedidos + 1;
-    printf("Nome do cliente: ");
+    printf("\nNome do cliente: ");
     limparBuffer();
     fgets(novoPedido->cliente, 50, stdin);
     novoPedido->cliente[strcspn(novoPedido->cliente, "\n")] = '\0';
@@ -105,7 +105,7 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
     int i;
     for (i = 0; i < novoPedido->quantidadeItens; i++) {
         int idItem;
-        printf("\nID do item %d: ", i + 1);
+        printf("ID do item %d: ", i + 1);
         scanf("%d", &idItem);
         int j;
         for (j = 0; j < quantidadeCardapio; j++) {
