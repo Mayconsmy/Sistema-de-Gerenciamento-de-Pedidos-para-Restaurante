@@ -41,11 +41,13 @@ Certifique-se de que todos os arquivos .c e .h estejam no mesmo diretório.
 
 - Execução do Sistema
   
-Após a compilação, execute o programa com o comando:
+**Abra o terminal do VS Code e digite o seguinte comando:
 
-./restaurante
+gcc "versão modulada/Src/cardapio.c" "versão modulada/Src/main.c" "versão modulada/Src/pedidos.c" "versão modulada/Src/utils.c" -I "versão modulada/Include" -o Restaurante
 
-- Utilização do Sistema
+**Para a execução do programa existe dois meios, o primeiro é digitando o comando /.Restaurante (nome que foi dado por você no comando acima) ou
+através dos arquivos do computador onde as pastas do projeto forão salvas, lá aparecerá um arquivo .exe
+
 Ao iniciar o programa, você terá acesso ao seguinte menu interativo:
 
 ======== Restaurante =========
