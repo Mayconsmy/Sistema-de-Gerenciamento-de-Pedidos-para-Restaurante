@@ -6,7 +6,8 @@
 // Função para exibir o cardápio por categoria
 void exibirCardapioPorCategoria(Item *cardapio, int quantidade, Categoria categoria) {
     printf("\n=== %s ===\n", obterNomeCategoria(categoria));
-    for (int i = 0; i < quantidade; i++) {
+    int i;
+    for (i = 0; i < quantidade; i++) {
         if (cardapio[i].categoria == categoria) {
             printf("ID: %d\n", cardapio[i].id);
             printf("Nome: %s\n", cardapio[i].nome);
@@ -104,10 +105,11 @@ void removerItem(Item **cardapio, int *quantidade) {
     int id;
     printf("ID do item a ser removido: ");
     scanf("%d", &id);
-
-    for (int i = 0; i < *quantidade; i++) {
+    int i;
+    for (i = 0; i < *quantidade; i++) {
         if ((*cardapio)[i].id == id) {
-            for (int j = i; j < *quantidade - 1; j++) {
+            int j;
+            for (j = i; j < *quantidade - 1; j++) {
                 (*cardapio)[j] = (*cardapio)[j + 1];
             }
             (*cardapio) = realloc(*cardapio, (*quantidade - 1) * sizeof(Item));
@@ -124,8 +126,8 @@ void atualizarItem(Item *cardapio, int quantidade) {
     int id;
     printf("ID do item a ser atualizado: ");
     scanf("%d", &id);
-
-    for (int i = 0; i < quantidade; i++) {
+    int i;
+    for (i = 0; i < quantidade; i++) {
         if (cardapio[i].id == id) {
             printf("Novo nome: ");
             limparBuffer();

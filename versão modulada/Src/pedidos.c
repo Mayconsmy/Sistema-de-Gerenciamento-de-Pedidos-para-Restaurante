@@ -6,7 +6,8 @@
 // Função para calcular o valor total de um pedido
 float calcularValorPedido(Pedido *pedido) {
     float valorTotal = 0.0;
-    for (int i = 0; i < pedido->quantidadeItens; i++) {
+    int i;
+    for (i = 0; i < pedido->quantidadeItens; i++) {
         valorTotal += pedido->itens[i].preco;
     }
     return valorTotal;
@@ -33,13 +34,16 @@ void gerenciarPedidos(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, 
         switch (opcao) {
             case 1:
                 // Exibir pedidos
-                for (int i = 0; i < *quantidadePedidos; i++) {
-                    printf("\nID: %d\n", (*pedidos)[i].id);
-                    printf("Cliente: %s\n", (*pedidos)[i].cliente);
-                    printf("Quantidade de Itens: %d\n", (*pedidos)[i].quantidadeItens);
-                    printf("Status: %s\n", obterNomeStatus((*pedidos)[i].status));
-                    printf("Valor Total: %.2f\n", calcularValorPedido(&(*pedidos)[i]));
-                    printf("\n");
+                {
+                    int i;
+                    for (i = 0; i < *quantidadePedidos; i++) {
+                        printf("\nID: %d\n", (*pedidos)[i].id);
+                        printf("Cliente: %s\n", (*pedidos)[i].cliente);
+                        printf("Quantidade de Itens: %d\n", (*pedidos)[i].quantidadeItens);
+                        printf("Status: %s\n", obterNomeStatus((*pedidos)[i].status));
+                        printf("Valor Total: %.2f\n", calcularValorPedido(&(*pedidos)[i]));
+                        printf("\n");
+                    }
                 }
                 break;
             case 2:
@@ -97,12 +101,13 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
         printf("Erro ao alocar memória!\n");
         exit(1);
     }
-
-    for (int i = 0; i < novoPedido->quantidadeItens; i++) {
+    int i;
+    for (i = 0; i < novoPedido->quantidadeItens; i++) {
         int idItem;
         printf("ID do item %d: ", i + 1);
         scanf("%d", &idItem);
-        for (int j = 0; j < quantidadeCardapio; j++) {
+        int j;
+        for (j = 0; j < quantidadeCardapio; j++) {
             if (cardapio[j].id == idItem) {
                 novoPedido->itens[i] = cardapio[j];
                 break;
@@ -116,7 +121,8 @@ void criarPedido(Pedido **pedidos, int *quantidadePedidos, Item *cardapio, int q
 
 // Função para alterar o status de um pedido
 void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, StatusPedido novoStatus) {
-    for (int i = 0; i < quantidadePedidos; i++) {
+    int i;
+    for (i = 0; i < quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
             pedidos[i].status = novoStatus;
             printf("Status do pedido %d atualizado para %s\n", idPedido, obterNomeStatus(novoStatus));
@@ -128,7 +134,8 @@ void alterarStatusPedido(Pedido *pedidos, int quantidadePedidos, int idPedido, S
 
 // Função para finalizar um pedido
 void finalizarPedido(Pedido *pedidos, int quantidadePedidos, int idPedido) {
-    for (int i = 0; i < quantidadePedidos; i++) {
+    int i;
+    for (i = 0; i < quantidadePedidos; i++) {
         if (pedidos[i].id == idPedido) {
             pedidos[i].status = ENTREGUE;
             printf("Pedido %d finalizado!\n", idPedido);
